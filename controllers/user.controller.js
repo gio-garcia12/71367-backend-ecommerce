@@ -1,9 +1,10 @@
-const userModel = require('../models/user.model')
+//const userModel = require('../models/user.model')
 const User = require('../models/user.model')
 const bcrypt = require("bcrypt")
 const saltRounds = 10
 const jwt = require('jsonwebtoken')
 const secret = process.env.SECRET
+
 
 async function getUserById(req,res){
     try{
@@ -67,6 +68,7 @@ async function getUsers (req,res){
         })
 
     }catch(error){
+        console.log(error)
         res.status(500).send({
             ok: false,
             message: "Error al obtener usuarios"
@@ -156,8 +158,7 @@ res.status(200).send ({
     message:"el usuario fue borrado"
 })
 
-    }catch{
-        (error)
+    }catch(error){
         console.log(error)
         res.status(500).send({
             ok:false,
@@ -187,13 +188,17 @@ async function updateUser(req,res){
             })
         }
 
-        console.log(req.params)
+        
         const newData = req.body
 
         //hashear password en el update
-        if(req.body.password){
+        newData.password = undefined
+        if(req.user.role != 'ADMIN_ROLE'){
+            newData.role  = undefined
 
         }
+
+       // }
 
        
         

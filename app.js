@@ -1,9 +1,10 @@
 const express = require("express")
 const app = express()
 const cors = require ('cors')
+const api_routes = require("./routes/index")
 
-const user_routes = require ("./routes/user.routes")
-const product_routes = require("./routes/product.routes")
+
+app.use(express.static('public'))
 
 //Middlewears
 app.use(cors())
@@ -12,11 +13,10 @@ app.use(cors())
 
 app.use(express.json())
 
-app.use("/api", [
-    user_routes,
-    product_routes
+//leer datos de un formulario 
+app.use(express.urlencoded({extended:true}))
 
-])
+app.use("/api", api_routes)
 
     module.exports = app
 
